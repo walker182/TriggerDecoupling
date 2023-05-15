@@ -1,0 +1,84 @@
+{
+    "target_dataset":{
+        "name": "sst-2",
+        "dev_rate": 0.1
+    },
+    "poison_dataset":{
+        "name": "sst-2",
+        "dev_rate": 0.1
+    },
+    "victim":{
+        "type": "plm",
+        "model": "bert",
+        "path": "bert-base-uncased",
+        "num_classes": 2,
+        "device": "cuda:0",
+        "max_len": 128,
+        "input_type": "inputs_embeds"
+
+
+    },
+    "attacker":{
+        "name": "base",
+        "metrics": ["accuracy"],
+        "train":{
+            "name": "base",
+            "lr": 2e-5,
+            "weight_decay": 0,
+            "epochs": 5,
+            "batch_size": 32,
+            "warm_up_epochs": 3,
+            "ckpt": "best",
+            "save_path": "./models"
+        },
+        "poisoner":{
+            "name": "badnets",
+            "poison_rate": 0.1,
+            "target_label": 1,
+            "label_consistency": false,
+            "label_dirty": true,
+            "triggers": ["cf", "mn", "bb", "tq"],
+            "num_triggers": 1,
+            "save": false,
+            "load": true
+        }
+    },
+
+    "defender":{
+        "name": "converter",
+        "seq_len": 128,
+        "emb_size": 768,
+        "lr": 1e-4,
+        "n_vocab": 30522,
+        "n_hidden_E": 512,
+        "n_hidden_G": 512,
+        "n_z": 100,
+        "word_dropout":0.5,
+        "rec_coef": 1,
+        "rec_align": 0.0,
+        "n_highway_layers": 2,
+        "n_layers_G": 2,
+        "n_layers_E": 1,
+        "device": "cuda:0",
+        "pretrainPath": "/media/data/user/defense_models/sst2_badnets.tar",
+        "num_class": 2,
+        "warm_up_exist": "",
+        "beta": 10
+    },
+
+    "convert_train":{
+    "name": "base",
+    "lr": 2e-5,
+    "weight_decay": 0,
+    "epochs": 3,
+    "batch_size": 32,
+    "warm_up_epochs": 3,
+    "ckpt": "best",
+    "save_path": "/media/data/user/converter_train",
+    "poison_setting": "badnets",
+    "poison_method": "sst2",
+    "warm_up": false,
+    "encoder_coef": 1
+}
+
+}
