@@ -1,9 +1,8 @@
-## The Official Implementation of The Paper "Trigger Decoupling-based Backdoor Defense for Pretrained Language Models"
+## The Official Implementation for The Paper "Trigger Decoupling-based Backdoor Defense for Pretrained Language Models"
 
 
-## Attention
-Only a part of the code is available at the moment. We will make the full code publicly available once the paper's blind review process is completed.
-
+## Attention ❗❗
+Only a part of the code is available at the moment. We will make the full code publicly available after the paper's blind review.
 
 
 
